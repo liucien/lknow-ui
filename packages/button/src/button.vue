@@ -5,15 +5,24 @@
     :disabled="disabled"
     :style="{fontSize:`${fontSize}px`}"
     :class="[
-      type ? 'l-button-' + type : '',
+      type ? 'l-button-' + type : '', //按钮类型
       {
         'is-disabled':disabled,
-        'jelly-button':animation && !disabled
+        'jelly-button':animation && !disabled,
+        'is-circle':circle
       }
     ]"
   >
-    <i class="iconfont icon-sync l-icon-loading" v-if="loading && disabled"></i>
-    <slot></slot>
+    <i
+      class="iconfont"
+      :class="[
+        icon,
+        loading && disabled || icon ? 'icon-sync l-icon-loading':'', //加载中
+      ]"
+      :style="{fontSize:`${fontSize}px`}"
+      v-if="loading && disabled || circle"
+    ></i>
+    <slot v-if="!circle"></slot>
   </button>
 </template>
 <script>
@@ -28,9 +37,14 @@ export default {
       type: [String, Number],
       default: 14
     },
-    loading: Boolean,
     animation: Boolean,
-    disabled: Boolean
+    disabled: Boolean,
+    loading: Boolean,
+    circle: Boolean,
+    icon: {
+      type: String,
+      default: ""
+    }
   },
   methods: {
     handleClick(event) {
@@ -87,7 +101,7 @@ export default {
   cursor: not-allowed;
   opacity: 0.5;
   &:hover {
-    opacity: 0.5;//hover状态下设为一样，减少逻辑冲突
+    opacity: 0.5; //hover状态下设为一样，减少逻辑冲突
   }
 }
 
@@ -98,20 +112,21 @@ export default {
   border-color: #1890ff;
 }
 .l-button-success {
-    color: #fff;
-    background-color: #67c23a;
-    border-color: #67c23a;
+  color: #fff;
+  background-color: #67c23a;
+  border-color: #67c23a;
 }
 .l-button-warning {
-    color: #fff;
-    background-color: #e6a23c;
-    border-color: #e6a23c;
+  color: #fff;
+  background-color: #e6a23c;
+  border-color: #e6a23c;
 }
 .l-button-error {
-    color: #fff;
-    background-color: #f56c6c;
-    border-color: #f56c6c;
+  color: #fff;
+  background-color: #f56c6c;
+  border-color: #f56c6c;
 }
+
 //果冻动画
 .jelly-button {
   &:hover {
@@ -134,7 +149,8 @@ export default {
   }
 }
 
-.l-icon-loading{
+//loading
+.l-icon-loading {
   display: inline-block;
   padding: 0 2px;
   animation: loading 1s ease-in-out infinite;
@@ -147,5 +163,10 @@ export default {
     }
   }
 }
-//loading
+
+//圆形
+.is-circle {
+  border-radius: 50%;
+  padding: 12px;
+}
 </style>
