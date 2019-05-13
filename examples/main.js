@@ -3,9 +3,9 @@ import App from './App.vue'
 import router from './router'
 
 //导入组件库
-import XrUI from '../packages';
+import LKnowUI from '../packages';
 //注册组件库
-Vue.use(XrUI);
+Vue.use(LKnowUI);
 
 Vue.config.productionTip = false
 

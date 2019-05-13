@@ -1,7 +1,7 @@
-import XrTest from './src/test.vue';
+import LTest from './src/test.vue';
 
-XrTest.install = Vue => {
-    Vue.component(XrTest.name, XrTest)
+LTest.install = Vue => {
+    Vue.component(LTest.name, LTest)
 }
 
-export default XrTest;
+export default LTest;

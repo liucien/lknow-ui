@@ -1,5 +1,5 @@
 <template>
-  <xr-test></xr-test>
+  <l-test></l-test>
 </template>
 
 <script>

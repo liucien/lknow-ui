@@ -1,8 +1,8 @@
-import XrTest from './test';
+import Test from './test';
 
 //所有组件列表
 const components = [
-    XrTest
+    Test
 ]
 
 //定义 install方法。接收vue作为参数
