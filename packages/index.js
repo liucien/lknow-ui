@@ -1,8 +1,11 @@
-import Test from './test';
+import '../public/iconfont/iconfont.css'
 
+import Test from './test';
+import Button from './button'
 //所有组件列表
 const components = [
-    Test
+    Test,
+    Button
 ]
 
 //定义 install方法。接收vue作为参数
