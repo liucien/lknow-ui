@@ -3,10 +3,12 @@ import '../public/common/style.css'
 
 import Test from './test';
 import Button from './button'
+import Input from './input'
 //所有组件列表
 const components = [
     Test,
-    Button
+    Button,
+    Input
 ]
 
 //定义 install方法。接收vue作为参数
