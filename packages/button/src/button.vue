@@ -7,9 +7,10 @@
     :class="[
       type ? 'l-button-' + type : '', //按钮类型
       {
+        'l-button-abled':!disabled,
         'is-disabled':disabled,
         'jelly-button':animation && !disabled,
-        'is-circle':circle
+        'is-circle':circle,
       }
     ]"
   >
@@ -17,9 +18,9 @@
       class="iconfont"
       :class="[
         icon,
-        loading && disabled || icon ? 'icon-sync l-icon-loading':'', //加载中
+        loading && disabled || !icon ? 'icon-sync l-icon-loading':'', //加载中
       ]"
-      :style="{fontSize:`${fontSize}px`}"
+      :style="{fontSize:!icon ? `${fontSize}px` :''}"
       v-if="loading && disabled || circle"
     ></i>
     <slot v-if="!circle"></slot>
@@ -61,14 +62,17 @@ export default {
   background-color: #fff;
   border: 1px solid #d9d9d9;
   padding: 12px 20px;
-  // font-size: inherit;
   font-family: inherit;
   cursor: pointer;
   outline: none; //去除原生按钮点击后的蓝框
   position: relative;
+}
+
+.l-button-abled {
   &:hover {
     opacity: 0.9;
   }
+
   &:after {
     content: "";
     display: block;

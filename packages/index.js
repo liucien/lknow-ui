@@ -1,4 +1,5 @@
 import '../public/iconfont/iconfont.css'
+import '../public/common/style.css'
 
 import Test from './test';
 import Button from './button'

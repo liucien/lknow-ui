@@ -7,14 +7,19 @@
     <l-button animation type="primary" fontSize="10" >primary</l-button>
     <l-button animation type="error" fontSize="10" >primary</l-button>
     <l-button animation type="error" fontSize="10" loading disabled>primary</l-button>
-    <l-button animation type="error" fontSize="20" loading disabled circle icon="icon-plus"></l-button>
-    <l-button animation type="error" fontSize="20" loading circle icon="icon-search"></l-button>
+    <l-button animation type="error" fontSize="14" loading disabled circle icon="icon-plus"></l-button>
+    <l-button animation type="error" fontSize="16"  circle icon="icon-plus" @click="plus(111)"></l-button>
   </div>
 </template>
 
 <script>
 export default {
   name: "home",
-  components: {}
+  components: {},
+  methods:{
+    plus(event){
+      console.log(event)
+    }
+  }
 };
 </script>
