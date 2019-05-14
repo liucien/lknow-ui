@@ -27,6 +27,16 @@
   </button>
 </template>
 <script>
+/**
+   @description button组件
+   @param type: 类型
+   @param fontSize: 文字大小
+   @param animation: 动画
+   @param disabled: 禁用
+   @param loading: 加载中
+   @param circle: 圆形
+   @param icon: 图标名称
+ */
 export default {
   name: "LButton",
   props: {
