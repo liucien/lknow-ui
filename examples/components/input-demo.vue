@@ -1,18 +1,18 @@
 <template>
-  <div class="l-input" :class="{'animation-label':animation}">
+  <div class="input">
     <input
-      ref="input"
-      :type="type"
-      :value="value"
-      :disabled="disabled"
       :animation="animation"
+      :type="type"
+      :disabled="disabled"
       v-bind="$attrs"
+      :value="currentValue"
       @input="handleInput"
+      ref="input"
     >
     <label
       :style="{width:`${labelWidth}px`}"
       :class="{
-          'label-fixed':animation && (labelFixed || value), //浮动动画控制
+          'label-fixed':labelFixed || value,
           'lable-center':!animation
         }"
     >
@@ -22,7 +22,7 @@
 </template>
 <script>
 export default {
-  name: "LInput",
+  name: "LvInput",
   props: {
     disabled: Boolean,
     animation: Boolean,
@@ -42,19 +42,29 @@ export default {
   },
   data() {
     return {
-      labelFixed: false
+      currentValue:
+        this.value === undefined || this.value === null ? "" : this.value,
+        labelFixed: false
     };
+  },
+  watch: {
+    value(val, oldVal) {
+      this.setCurrentValue(val);
+    }
   },
   methods: {
     handleInput(event) {
-      let value = event.target.value;
-      this.$emit("input", value); //必须为原生事件传递
-
+      const value = event.target.value;
+      this.setCurrentValue(value);
+      this.$emit("input", value);
       if (value && this.animation) {
         this.labelFixed = true;
       } else {
         this.labelFixed = false;
       }
+    },
+    setCurrentValue(value) {
+      this.currentValue = value;
     }
   }
 };
