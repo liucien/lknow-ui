@@ -4,11 +4,13 @@ import '../public/common/style.css'
 import Test from './test';
 import Button from './button'
 import Input from './input'
+import LForm from './form'
 //所有组件列表
 const components = [
     Test,
     Button,
-    Input
+    Input,
+    LForm
 ]
 
 //定义 install方法。接收vue作为参数
