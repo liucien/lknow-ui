@@ -1,8 +1,10 @@
 <template>
   <button
     class="l-button"
+    v-bind="$attrs"
     @click="handleClick"
     :disabled="disabled"
+    :type="nativeType"
     :style="{fontSize:`${fontSize}px`}"
     :class="[
       type ? 'l-button-' + type : '', //按钮类型
@@ -30,6 +32,7 @@
 /**
    @description button组件
    @param type: 类型
+   @param nativeType：原生type属性
    @param fontSize: 文字大小
    @param animation: 动画
    @param disabled: 禁用
@@ -43,6 +46,10 @@ export default {
     type: {
       type: String,
       default: "default"
+    },
+    nativeType: {
+      type: String,
+      default: "button"
     },
     fontSize: {
       type: [String, Number],

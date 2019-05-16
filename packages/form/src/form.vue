@@ -1,36 +1,58 @@
 <template>
-  <div>
-    <form action>
-      <slot></slot>
-    </form>
-  </div>
+  <form v-bind="$attrs">
+    <slot></slot>
+  </form>
 </template>
 <script>
 export default {
   name: "LForm",
-  data() {
-    return {};
+  props: {
+    model: Object,
+    rules: Object
   },
-  //监听属性 类似于data概念
-  computed: {},
-  //监控data中的数据变化
-  watch: {},
-  //方法集合
-  methods: {},
+  data() {
+    return {
+      fields: []
+    };
+  },
+  provide() {
+    return {
+      //form 标识，类似于ID
+      form: this
+    };
+  },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
-  //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {},
-  beforeCreate() {}, //生命周期 - 创建之前
-  beforeMount() {}, //生命周期 - 挂载之前
-  beforeUpdate() {}, //生命周期 - 更新之前
-  updated() {}, //生命周期 - 更新之后
-  beforeDestroy() {}, //生命周期 - 销毁之前
-  destroyed() {}, //生命周期 - 销毁完成
-  activated() {} //如果页面有keep-alive缓存功能，这个函数会触发
+  created() {
+    this.$on("form-add", field => {
+      if (field) this.fields.push(field);
+    });
+
+    this.$on("form-remove", field => {
+      if (field.prop) this.fields.splice(this.fields.indexOf(field, 1));
+    });
+  },
+  methods: {
+    resetFields() {
+      this.fields.forEach(field => field.resetField());
+    },
+    validate(cb) {
+      return new Promise(resolve => {
+        let valid = true;
+        let count = 0;
+        this.fields.forEach(field => {
+          field.validate("", error => {
+            if (error) valid = false;
+            if (++count === this.fields.length) {
+              resolve(valid);
+              if (typeof cb === "function") cb(valid);
+            }
+          });
+        });
+      });
+    }
+  }
 };
 </script>
 
 <style lang='scss' scoped>
-
 </style>

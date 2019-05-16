@@ -5,12 +5,14 @@ import Test from './test';
 import Button from './button'
 import Input from './input'
 import LForm from './form'
+import FormItem from './form-item'
 //所有组件列表
 const components = [
     Test,
     Button,
     Input,
-    LForm
+    LForm,
+    FormItem
 ]
 
 //定义 install方法。接收vue作为参数

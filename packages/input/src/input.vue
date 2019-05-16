@@ -8,8 +8,10 @@
       :animation="animation"
       v-bind="$attrs"
       @input="handleInput"
+      @blur="handleBlur"
     >
     <label
+      v-if="label"
       :style="{width:`${labelWidth}px`}"
       :class="{
           'label-fixed':animation && (labelFixed || value), //浮动动画控制
@@ -21,8 +23,17 @@
   </div>
 </template>
 <script>
+import Emitter from "~/utils/mixins/emitter";
+
 export default {
   name: "LInput",
+  mixins: [Emitter],
+  inject:{
+    formLabelId:{
+      from:'formLabelId',
+      default:''
+    }
+  },
   props: {
     disabled: Boolean,
     animation: Boolean,
@@ -45,16 +56,21 @@ export default {
       labelFixed: false
     };
   },
+  mounted() {
+    if (this.formLabelId) this.$refs.input.id = this.formLabelId; //解决多组件嵌套下forId值定位错误bug
+    // if (this.$parent.labelFor) this.$refs.input.id = this.$parent.labelFor;
+  },
   methods: {
     handleInput(event) {
       let value = event.target.value;
       this.$emit("input", value); //必须为原生事件传递
+      this.dispatch("LFormItem", "form-change", value);
 
-      if (value && this.animation) {
-        this.labelFixed = true;
-      } else {
-        this.labelFixed = false;
-      }
+      if (value && this.animation) this.labelFixed = true;
+      else this.labelFixed = false;
+    },
+    handleBlur() {
+      this.dispatch("LFormItem", "form-blur", this.value);
     }
   }
 };
@@ -64,9 +80,9 @@ export default {
 $_height: 40px;
 .l-input {
   position: relative;
-  margin-bottom: 20px;
   color: #979797;
   background: #fff;
+  display: inline-block;
   height: $_height;
 
   input {
