@@ -17,7 +17,7 @@ export default {
   },
   provide() {
     return {
-      //form 标识，类似于ID
+      //form：标识，类似于ID
       form: this
     };
   },
@@ -53,6 +53,3 @@ export default {
   }
 };
 </script>
-
-<style lang='scss' scoped>
-</style>

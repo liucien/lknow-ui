@@ -2,6 +2,7 @@
   <div class="l-input" :class="{'animation-label':animation}">
     <input
       ref="input"
+      :style="{borderColor: message ? '#f56c6c' : ''}"
       :type="type"
       :value="value"
       :disabled="disabled"
@@ -12,7 +13,6 @@
     >
     <label
       v-if="label"
-      :style="{width:`${labelWidth}px`}"
       :class="{
           'label-fixed':animation && (labelFixed || value), //浮动动画控制
           'lable-center':!animation
@@ -20,6 +20,7 @@
     >
       <span>{{label}}</span>
     </label>
+    <div v-if="message" class="message">{{message}}</div>
   </div>
 </template>
 <script>
@@ -28,10 +29,10 @@ import Emitter from "~/utils/mixins/emitter";
 export default {
   name: "LInput",
   mixins: [Emitter],
-  inject:{
-    formLabelId:{
-      from:'formLabelId',
-      default:''
+  inject: {
+    formItmeInitData: {
+      from: "formItmeInitData",
+      default: {}
     }
   },
   props: {
@@ -53,11 +54,13 @@ export default {
   },
   data() {
     return {
-      labelFixed: false
+      labelFixed: false,
+      message: ""
     };
   },
   mounted() {
-    if (this.formLabelId) this.$refs.input.id = this.formLabelId; //解决多组件嵌套下forId值定位错误bug
+    if (this.formItmeInitData.formLabelId)
+      this.$refs.input.id = this.formItmeInitData.formLabelId; //解决多组件嵌套下forId值定位错误
     // if (this.$parent.labelFor) this.$refs.input.id = this.$parent.labelFor;
   },
   methods: {
@@ -71,6 +74,14 @@ export default {
     },
     handleBlur() {
       this.dispatch("LFormItem", "form-blur", this.value);
+    }
+  },
+  watch: {
+    formItmeInitData: {
+      handler(val, oldVal) {
+        this.message = val.message; //观察值得变化，不然能打印出对象而无法取到具体变化得值（可直接作用于template）
+      },
+      deep: true
     }
   }
 };
@@ -115,6 +126,12 @@ $_height: 40px;
     top: -($_height/5);
     font-size: 12px;
     background: #fff;
+  }
+
+  .message {
+    font-size: 12px;
+    color: #f56c6c;
+    display: table;
   }
 }
 

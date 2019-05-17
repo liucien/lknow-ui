@@ -9,7 +9,6 @@
       }"
     >{{label}}</label>
     <slot></slot>
-    <div v-if="isShowMes" class="message">{{message}}</div>
   </div>
 </template>
 
@@ -23,7 +22,9 @@ export default {
   inject: ["form"],
   provide() {
     return {
-      formLabelId: this.formLabelId
+      formLabelId: this.formLabelId,
+      formItmeInitData: this.$data //引用的是$data对象的地址，此时message有响应式getter与setter，可实现响应式
+      // message:this.message, //指向的是String字符串，返回是个初始值
     };
   },
   props: {
@@ -36,9 +37,9 @@ export default {
   data() {
     return {
       isRequired: false,
-      isShowMes: false,
       message: "",
-      formLabelId: `input_${Math.random(new Date().valueOf()) * 1e17}`
+      formLabelId: `input_${Math.random(new Date().valueOf()) * 1e17 +
+        new Date().valueOf()}` //生成唯一ID
     };
   },
   computed: {
@@ -89,10 +90,9 @@ export default {
       if (!rules || rules.length === 0) return true;
 
       // 使用 async-validator
-      const validator = new AsyncValidator({ [this.prop]: rules });
       let model = { [this.prop]: this.fieldValue };
+      const validator = new AsyncValidator({ [this.prop]: rules });
       validator.validate(model, { firstFields: true }, errors => {
-        this.isShowMes = errors ? true : false;
         this.message = errors ? errors[0].message : "";
         if (cb) cb(this.message);
       });
@@ -113,16 +113,13 @@ export default {
 
 <style lang='scss' scoped>
 .l-form-item {
+  margin-bottom: 20px;
   .l-form-item-label {
     color: #979797;
     display: inline-block;
   }
   .label-required:before {
     content: "*";
-    color: #f56c6c;
-  }
-  .message {
-    font-size: 12px;
     color: #f56c6c;
   }
 }

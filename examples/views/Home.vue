@@ -15,13 +15,16 @@
     <l-input @input="test" label="标题" v-model="testVal"></l-input>
     <l-input @input="test" label="密码" type="password" required></l-input>
     <l-input @input="test" label="密码" type="month"></l-input>
-    <l-input @input="test" animation label="biaoti" v-model="animationVal"></l-input>
+    <l-input @input="test" animation label="标题标题标题标题" v-model="animationVal"></l-input>
     <div>{{animationVal}}</div>
     <div class="out-line"></div>
     <l-form ref="form" :model="formData" :rules="rules">
-      <l-form-item label="名称：" prop="name">
-        <l-input v-model="formData.name"></l-input>
+      <l-form-item label="测试：">
+        <l-input v-model="formData.test"></l-input>
       </l-form-item>
+      <!-- <l-form-item label="名称：" prop="name">
+        <l-input v-model="formData.name"></l-input>
+      </l-form-item> -->
       <l-form-item label="邮箱：" prop="mail">
         <l-input v-model="formData.mail"></l-input>
       </l-form-item>
@@ -38,13 +41,14 @@ export default {
   data() {
     return {
       testVal: "",
-      animationVal: "test",
+      animationVal: "",
       formData: {
         name: "",
-        mail: ""
+        mail: "",
+        test:''
       },
       rules: {
-        name: [{ required: false, message: "不能为空", trigger: "blur" }],
+        name: [{ required: true, message: "不能为空", trigger: "blur" }],
         mail: [
           { required: true, message: "不能为空", trigger: "blur" },
           { type: "email", message: "邮箱格式不正确", trigger: "blur" }
